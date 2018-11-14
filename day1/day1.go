@@ -17,16 +17,22 @@ func main() {
 
 	var slice = strings.Split(input, ",")
 
+	r, _ := regexp.Compile("R(\\d+)")
+	l, _ := regexp.Compile("L(\\d+)")
+
 	for _, num := range slice {
-		r, _ := regexp.Compile("R(\\d+)")
-		l, _ := regexp.Compile("L(\\d+)")
 
 		if r.MatchString(num) {
 			i, err := strconv.Atoi(r.FindStringSubmatch(strings.Trim(num, " "))[1])
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+
 			if whereami == 3 {
 				whereami = 0
 			} else {
-				whereami += 1
+				whereami++
 			}
 			if whereami == 0 {
 				county += i
@@ -37,16 +43,14 @@ func main() {
 			} else {
 				countx -= i
 			}
-			if err != nil {
-				fmt.Println(err)
-			}
+
 		} else if l.MatchString(num) {
 
 			b, err2 := strconv.Atoi(l.FindStringSubmatch(strings.Trim(num, " "))[1])
 			if whereami == 0 {
 				whereami = 3
 			} else {
-				whereami -= 1
+				whereami--
 			}
 			if whereami == 0 {
 				county += b
