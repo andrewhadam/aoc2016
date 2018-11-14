@@ -8,6 +8,20 @@ import "strings"
 import "regexp"
 import "strconv"
 
+// AdjustLocation comment
+func add(t int, x int, y int, inc int) (int, int) {
+	if t == 0 {
+		y += inc
+	} else if t == 1 {
+		x += inc
+	} else if t == 2 {
+		y -= inc
+	} else {
+		x -= inc
+	}
+	return x, y
+}
+
 func main() {
 	var input = "R3, L5, R2, L1, L2, R5, L2, R2, L2, L2, L1, R2, L2, R4, R4, R1, L2, L3, R3, L1, R2, L2, L4, R4, R5, L3, R3, L3, L3, R4, R5, L3, R3, L5, L1, L2, R2, L1, R3, R1, L1, R187, L1, R2, R47, L5, L1, L2, R4, R3, L3, R3, R4, R1, R3, L1, L4, L1, R2, L1, R4, R5, L1, R77, L5, L4, R3, L2, R4, R5, R5, L2, L2, R2, R5, L2, R194, R5, L2, R4, L5, L4, L2, R5, L3, L2, L5, R5, R2, L3, R3, R1, L4, R2, L1, R5, L1, R5, L1, L1, R3, L1, R5, R2, R5, R5, L4, L5, L5, L5, R3, L2, L5, L4, R3, R1, R1, R4, L2, L4, R5, R5, R4, L2, L2, R5, R5, L5, L2, R4, R4, L4, R1, L3, R1, L1, L1, L1, L4, R5, R4, L4, L4, R5, R3, L2, L2, R3, R1, R4, L3, R1, L4, R3, L3, L2, R2, R2, R2, L1, L4, R3, R2, R2, L3, R2, L3, L2, R4, L2, R3, L4, R5, R4, R1, R5, R3"
 
@@ -34,37 +48,23 @@ func main() {
 			} else {
 				whereami++
 			}
-			if whereami == 0 {
-				county += i
-			} else if whereami == 1 {
-				countx += i
-			} else if whereami == 2 {
-				county -= i
-			} else {
-				countx -= i
-			}
+
+			countx, county = add(whereami, countx, county, i)
 
 		} else if l.MatchString(num) {
 
 			b, err2 := strconv.Atoi(l.FindStringSubmatch(strings.Trim(num, " "))[1])
+			if err2 != nil {
+				fmt.Println(err2)
+			}
+
 			if whereami == 0 {
 				whereami = 3
 			} else {
 				whereami--
 			}
-			if whereami == 0 {
-				county += b
-			} else if whereami == 1 {
-				countx += b
-			} else if whereami == 2 {
-				county -= b
-			} else {
-				countx -= b
-			}
 
-			if err2 != nil {
-				fmt.Println(err2)
-			}
+			countx, county = add(whereami, countx, county, b)
 		} else {
 			fmt.Println("something really bad happened")
 
