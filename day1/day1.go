@@ -7,6 +7,7 @@ import "fmt"
 import "strings"
 import "regexp"
 import "strconv"
+import "math"
 
 // AdjustLocation comment
 func add(t int, x int, y int, inc int) (int, int) {
@@ -70,6 +71,6 @@ func main() {
 
 		}
 	}
-	fmt.Println(strconv.Itoa(countx) + " R moves")
-	fmt.Println(strconv.Itoa(county) + " L moves")
+
+	fmt.Println(math.Abs(float64(county)) + math.Abs(float64(countx)))
 }
